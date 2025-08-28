@@ -42,7 +42,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     sh '''
                     # Download and unzip SonarScanner CLI
-                    wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip -O sonar-scanner.zip
+                    wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip -O sonar-scanner.zip
                     unzip -q sonar-scanner.zip
                     export PATH=$PWD/sonar-scanner-*/bin:$PATH
 
@@ -54,3 +54,4 @@ pipeline {
         }
     }
 }
+
