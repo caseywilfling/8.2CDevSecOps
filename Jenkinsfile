@@ -41,6 +41,9 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     sh '''
+                    # Cleans up previous SonarScanner
+                    rm -rf sonar-scanner-*
+                    
                     # Download and unzip SonarScanner CLI
                     wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip -O sonar-scanner.zip
                     unzip -oq sonar-scanner.zip
@@ -56,6 +59,7 @@ pipeline {
         }
     }
 }
+
 
 
 
