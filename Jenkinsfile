@@ -44,14 +44,17 @@ pipeline {
                     # Download and unzip SonarScanner CLI
                     wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip -O sonar-scanner.zip
                     unzip -q sonar-scanner.zip
-                    export PATH=$PWD/sonar-scanner-*/bin:$PATH
-
-                    # Run SonarScanner using properties file
-                    sonar-scanner -Dsonar.login=$SONAR_TOKEN
+    
+                    # Find extracted folder dynamically
+                    SCANNER_DIR=$(find . -type d -name "sonar-scanner-*")
+    
+                    # Run SonarScanner from its full path
+                    $SCANNER_DIR/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN
                     '''
                 }
             }
         }
     }
 }
+
 
