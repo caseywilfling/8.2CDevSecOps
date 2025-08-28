@@ -43,7 +43,7 @@ pipeline {
                     sh '''
                     # Download and unzip SonarScanner CLI
                     wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip -O sonar-scanner.zip
-                    unzip -q sonar-scanner.zip
+                    unzip -oq sonar-scanner.zip
     
                     # Find extracted folder dynamically
                     SCANNER_DIR=$(find . -type d -name "sonar-scanner-*")
@@ -56,5 +56,6 @@ pipeline {
         }
     }
 }
+
 
 
