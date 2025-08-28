@@ -41,24 +41,29 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
                     sh '''
-                    # Cleans up previous SonarScanner
-                    rm -rf sonar-scanner-*
-                    
                     # Download and unzip SonarScanner CLI
-                    wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip -O sonar-scanner.zip
-                    unzip -oq sonar-scanner.zip
-    
-                    # Find extracted folder dynamically
-                    SCANNER_DIR=$(find . -type d -name "sonar-scanner-*")
-    
-                    # Run SonarScanner from its full path
-                    $SCANNER_DIR/bin/sonar-scanner -Dsonar.login=$SONAR_TOKEN
-                    '''
+                    wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.2.0.5079-linux-x64.zip -O sonar-scanner.zip
+                    unzip -o -q sonar-scanner.zip
+                    export PATH=$PWD/sonar-scanner-7.2.0.5079-linux-x64/bin:$PATH
+
+                    # Run SonarScanner with inline config
+                    sonar-scanner \
+                      -Dsonar.projectKey=caseywilfling_8.2CDevSecOps \
+                      -Dsonar.organization=caseywilfling \
+                      -Dsonar.host.url=https://sonarcloud.io \
+                      -Dsonar.sources=. \
+                      -Dsonar.exclusions=node_modules/**,test/** \
+                      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
+                      -Dsonar.projectName="NodeJS Goof Vulnerable App" \
+                      -Dsonar.sourceEncoding=UTF-8 \
+                      -Dsonar.login=$SONAR_TOKEN
+                '''
                 }
             }
         }
     }
 }
+
 
 
 
